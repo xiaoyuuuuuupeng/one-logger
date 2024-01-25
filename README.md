@@ -31,20 +31,25 @@
 
 字段
 
-| 字段              | 含义      | 示例  |
-|-----------------|---------|-----|
-| timestamp       | 打印时的时间戳 | 1   |
-| tracedId        |         |     |
-| spanId          |         |     |
-| remoteAddr      |         |     |
-| endpoint        |         |     |
-| Method          |         |     |
-| sequence        |         |     |
-| costTime        |         |     |
-| globalServiceId |         |     |
-| serviceName     |         |     |
-| req             |         |     |
-| res             |         |     |
+| 字段              | 含义                              | 示例                                                                 |
+|-----------------|---------------------------------|--------------------------------------------------------------------|
+| timestamp       | 打印时的时间戳 yyyy-MM-dd HH:mm:ss.SSS | 2024-01-23 18:45:56.035                                            |
+| traceId         | 请求id, uuid                      | d2c0ec12c8fb489299b1e587e36ce683                                   |
+| applicationName | 应用名称                            | demo-service                                                       |
+| logType         | 日志类型，区分什么类型                     | WEB/DB/RABBITMQ.SEND                                               |
+| action          | 该日志的具体行为                        | WEB./demo/findList                                                 |
+| rootSpan        | 该日志的根spanId，用于链路追踪              | WEB./demo/findList                                                 |
+| interface       | 该日志的具体执行入口，用户代码分析               | com.demo.controller.ActivityBriefController                        |
+| method          | 该日志的具体执行方法，用户代码分析               | findList                                                           |
+| connId          | 链接地址                            | 0:0:0:0:0:0:0:1                                                    |
+| sourceIp        | 源ip地址                           | 127.0.0.1                                                          |
+| spanId          | 调用链，spanId                      | 0.1.1.2                                                            |
+| sequence        | 被调用次数                           | 10                                                                 |
+| cost            | 耗时（ms)                          | 10                                                                 |
+| request         | 请求参数，json格式                     | "request":{"qp":{"pageNum":1,"pageSize":10,"id":"11","name":"123"} |
+| response        | 响应参数，json格式                     | "response":{"retrun_code":0,"data":[]}                             |
+| extraInfo       | 额外参数，http header、mysql地址等       | "extraInfo":"clientIp=0:0:0:0:0:0:0:1;clientPort=60833;header={};" |
+
 
 - plain 
 - json
@@ -56,22 +61,33 @@
 
 
 ### 四、How To Use it
-以sq-mall-administration举例：
-
 4.1 引入依赖
 ```xml
     <dependency>
-        <groupId>com.sqg</groupId>
-        <artifactId>sqg-env-config</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
+      <groupId>fun.pxyc</groupId>
+      <artifactId>one-logger</artifactId>
+      <version>0.0.1</version>
+</dependency>
 ```
 引入依赖后默认就已经拥有Redis、mq、web、restTemplate等监控能力
 
-4.2 删除之前的aop打印日志
-移除AllAOP和其他继承了BaseAop的切面类
+4.2 删除之前的aop打印日志(如有，不删也不影响)
 
-4.3 logBack.xml配置
+4.3 application.yaml配置
+```yaml
+spring:
+  application:
+    name: demo-service
+log:
+  path: ./logs
+env:
+  config:
+    web-cut-point: execution(* com.demo.controller..*(..))
+    biz-cut-point: execution(* com.demo.service..*(..))
+    log-formatter: plain
+```
+
+4.4 logBack.xml配置
 增加appender和logger：
 
  ```xml
@@ -245,6 +261,7 @@
     </root>
 
 </configuration>
+
 
 ```
 

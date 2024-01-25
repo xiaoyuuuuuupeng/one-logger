@@ -76,7 +76,7 @@ public class LoggerFormatter {
             int logSize) {
         Map<String, Object> logMap = new LinkedHashMap<>();
         logMap.put("timestamp", timestamp);
-        logMap.put("requestId", traceId);
+        logMap.put("traceId", traceId);
         logMap.put("applicationName", GlobalConfig.globalServiceName);
         logMap.put("logType", action.getLogType());
         logMap.put("action", action.getAction());
@@ -85,7 +85,6 @@ public class LoggerFormatter {
         logMap.put("method", action.getMethod());
         logMap.put("connId", connId);
         logMap.put("sourceIp", GlobalConfig.sourceIp);
-        logMap.put("logVersion", "1.0.5");
         logMap.put("spanId", spanId);
         logMap.put("sequence", sequence);
         logMap.put("cost", getCost(timeUsedMs));
