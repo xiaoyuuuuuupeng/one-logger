@@ -54,10 +54,9 @@
 
 
 - plain
-  字符切分为 三个空格 + ,   eg: '   ,'字符切分为 三个空格 + ,   
+  字符切分为 三个空格 + ,    
   ```text
     2024-01-25 10:29:57.049,   6722df6f783b4c58914cedbbc0f4d3cc,   dem-service,   WEB,   WEB./demo/findList,   WEB./demo/findList,   com.demo.controller.DemoController,   findList,   0:0:0:0:0:0:0:1,   127.0.0.1,   0.1,   1,   50516,   requestBody:{"pageNum":0,"pageSize":0,"id":0,"name":"123"},   retrun_code:0^_^data:[],   clientIp=0:0:0:0:0:0:0:1;clientPort=65179;header={};
-  
   ```
 
 - json
@@ -93,6 +92,7 @@
     },
     "extraInfo":"clientIp=0:0:0:0:0:0:0:1;clientPort=60833;header={};"
   }
+  ```
 ### 四、How To Use it
 4.1 引入依赖
 ```xml
