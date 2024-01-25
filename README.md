@@ -190,7 +190,7 @@ env:
 <configuration>
 
     <property name="logPath" value="D:/opt/logs/"/>
-    <property name="appName" value="sq-mall-administration"/>
+    <property name="appName" value="demo-service"/>
     <property name="FILE_LOG_PATTERN"
               value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
     <property name="COMMON_FORMAT" value="[%d{yyyy-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n"/>
