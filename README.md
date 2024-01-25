@@ -100,7 +100,7 @@
       <groupId>fun.pxyc</groupId>
       <artifactId>one-logger</artifactId>
       <version>0.0.1</version>
-</dependency>
+    </dependency>
 ```
 
 引入依赖后默认就已经拥有Redis、mq、web、restTemplate等监控能力
