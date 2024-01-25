@@ -1,9 +1,9 @@
 ## 统一日志配置
 
 ### 一、目标
-在零配置的情况下，无感知的支持主流各个中间件打印，支持链路，后续将支持对接第三方监控平台。
-强耦合Springboot环境，是使用aop对中间件底层方法进行代理，打印日志。
----
+
+    在零配置的情况下，无感知的支持主流各个中间件打印，支持链路，后续将支持对接第三方监控平台。
+    强耦合Springboot环境，是使用aop对中间件底层方法进行代理，打印日志。
 
 ### 二、Features
 1.	异步打印，不影响主流程耗时	AsyncAuditPool	开启线程池，对外方法，统一打印
@@ -15,7 +15,7 @@
 4.	支持resttemplate中间件日志打印
 
 5.	支持rabbitmq中间件日志打印
- 
+
 6.	支持kafka中间件日志打印
 
 7.	支持mysql日志打印	【支持mybatis框架或支持druid数据源方式】
@@ -51,15 +51,46 @@
 | extraInfo       | 额外参数，http header、mysql地址等       | "extraInfo":"clientIp=0:0:0:0:0:0:0:1;clientPort=60833;header={};" |
 
 
-- plain 
+- plain
+  字符切分为 三个空格 + ,   eg: '   ,'字符切分为 三个空格 + ,   
+  ```text
+    2024-01-25 10:29:57.049,   6722df6f783b4c58914cedbbc0f4d3cc,   dem-service,   WEB,   WEB./demo/findList,   WEB./demo/findList,   com.demo.controller.DemoController,   findList,   0:0:0:0:0:0:0:1,   127.0.0.1,   0.1,   1,   50516,   requestBody:{"pageNum":0,"pageSize":0,"id":0,"name":"123"},   retrun_code:0^_^data:[],   clientIp=0:0:0:0:0:0:0:1;clientPort=65179;header={};
+  
+  ```
+
 - json
-
-3、字符切分为 三个空格 + ,   eg: '   ,'
-   
-
----
-
-
+  ```json
+    {
+    "timestamp":"2024-01-23 18:45:56.035",
+    "requestId":"d2c0ec12c8fb489299b1e587e36ce683",
+    "applicationName":"demo-service",
+    "logType":"WEB",
+    "action":"WEB./demo/findList",
+    "rootSpan":"WEB./demo/findList",
+    "interface":"com.demo.controller.DemoController",
+    "method":"findList",
+    "connId":"0:0:0:0:0:0:0:1",
+    "sourceIp":"127.0.0.1",
+    "spanId":"0.1",
+    "sequence":1,
+    "cost":107,
+    "request":{
+        "requestBody":{
+            "pageNum":1,
+            "pageSize":10,
+            "id":"11",
+            "name":"123"
+        }
+    },
+    "response":{
+        "retrun_code":0,
+        "data":[
+            {
+            }
+        ]
+    },
+    "extraInfo":"clientIp=0:0:0:0:0:0:0:1;clientPort=60833;header={};"
+  }
 ### 四、How To Use it
 4.1 引入依赖
 ```xml
@@ -69,6 +100,7 @@
       <version>0.0.1</version>
 </dependency>
 ```
+
 引入依赖后默认就已经拥有Redis、mq、web、restTemplate等监控能力
 
 4.2 删除之前的aop打印日志(如有，不删也不影响)
@@ -148,7 +180,7 @@ env:
         <appender-ref ref="ROOT"/>
         <appender-ref ref="ERROR"/>
     </root>
-```
+ ```
 完整的logback.xml
 
 ```xml
@@ -267,31 +299,31 @@ env:
 
 ---
 ### 五、配置项
-| 配置参数                           | 配置枚举                                        | 含义                                                                                  |
-|--------------------------------|---------------------------------------------|-------------------------------------------------------------------------------------|
-| env.config.disable-stdout      | false;true                                  | 控制是否输出log.info日志和console日志，默认false;配置为true，则不会打印console日志和info级别日志，慎重配置             |
-| env.config.trace-adapter-param | default;....                                | traceAadpter的spi支持，默认default，后续可以利用此spi对接第三方中间件                                     |
-| env.config.web-cut-point       | 默认:execution(* com.sqg.*.controller..*(..)) | web层切点配置                                                                            |
-| env.config.biz-cut-point       | 默认:execution(* com.sqg.*.service..*(..))    | biz层切点配置                                                                            |
-| env.config.log-formatter       | json;plain;......                           | logFormatter的spi支持，默认json,支持自定义输出logStr                                             |
-| env.config.log-index           | 例：req.name，可以参考jsonPath，多个用分号拼接             | 提取日志中的某一个字段作为index，方便支持es的索引。原理为：[jsonPath](https://github.com/json-path/JsonPath)  |
-| env.config.ignore-params       | 例：res.name，可以参考jsonPath，多个用分号拼接             | 忽略日志中的某一个字段，会将该字段值替换为"******"。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
-| env.config.slow-sql-millis     | 慢sql时间ms int值                               | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-redis-millis   | 慢redisl时间ms int值                            | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-http-millis    | 慢http时间ms int值                              | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-kafka-millis   | 慢kafka时间ms int值                             | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-mq-millis      | 慢mq时间ms int值                                | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-hbase-millis   | 慢hbase时间ms int值                             | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.slow-mongo-millis   | 慢mongo时间ms int值                             | 超过就会在all.log里打印warn级别的日志                                                            |
-| env.config.db-log-max-chars    | 默认：-1（全部打印）db日志输出最大字符                       |                                                                                     |
-| env.config.dubbo-log-max-chars | 默认：-1（全部打印）dubbo日志输出最大字符                    |                                                                                     |
-| env.config.hbase-log-max-chars | 默认：-1（全部打印）hbase日志输出最大字符                    |                                                                                     |
-| env.config.http-log-max-chars  | 默认：-1（全部打印）http日志输出最大字符                     |                                                                                     |
-| env.config.mongo-log-max-chars | 默认：-1（全部打印）mongo日志输出最大字符                    |                                                                                     |
-| env.config.mq-log-max-chars    | 默认：-1（全部打印）mq日志输出最大字符                       |                                                                                     |
-| env.config.redis-log-max-chars | 默认：-1（全部打印）redis日志输出最大字符                    |                                                                                     |
-| env.config.web-log-max-chars   | 默认：-1（全部打印）web日志输出最大字符                      |                                                                                     |
-| env.config.sample-rate         | 采集率 保留字段 暂时没有用                              |                                                                                     |
+| 配置参数                       | 配置枚举                                       | 含义                                                         |
+| ------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
+| env.config.disable-stdout      | false;true                                     | 控制是否输出log.info日志和console日志，默认false;配置为true，则不会打印console日志和info级别日志，慎重配置 |
+| env.config.trace-adapter-param | default;....                                   | traceAadpter的spi支持，默认default，后续可以利用此spi对接第三方中间件 |
+| env.config.web-cut-point       | 默认:execution(* com.demo.*.controller..*(..)) | web层切点配置                                                |
+| env.config.biz-cut-point       | 默认:execution(* com.demo.*.service..*(..))    | biz层切点配置                                                |
+| env.config.log-formatter       | json;plain;......                              | logFormatter的spi支持，默认json,支持自定义输出logStr         |
+| env.config.log-index           | 例：req.name，可以参考jsonPath，多个用分号拼接 | 提取日志中的某一个字段作为index，方便支持es的索引。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
+| env.config.ignore-params       | 例：res.name，可以参考jsonPath，多个用分号拼接 | 忽略日志中的某一个字段，会将该字段值替换为"******"。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
+| env.config.slow-sql-millis     | 慢sql时间ms int值                              | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-redis-millis   | 慢redisl时间ms int值                           | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-http-millis    | 慢http时间ms int值                             | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-kafka-millis   | 慢kafka时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-mq-millis      | 慢mq时间ms int值                               | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-hbase-millis   | 慢hbase时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.slow-mongo-millis   | 慢mongo时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| env.config.db-log-max-chars    | 默认：-1（全部打印）db日志输出最大字符         |                                                              |
+| env.config.dubbo-log-max-chars | 默认：-1（全部打印）dubbo日志输出最大字符      |                                                              |
+| env.config.hbase-log-max-chars | 默认：-1（全部打印）hbase日志输出最大字符      |                                                              |
+| env.config.http-log-max-chars  | 默认：-1（全部打印）http日志输出最大字符       |                                                              |
+| env.config.mongo-log-max-chars | 默认：-1（全部打印）mongo日志输出最大字符      |                                                              |
+| env.config.mq-log-max-chars    | 默认：-1（全部打印）mq日志输出最大字符         |                                                              |
+| env.config.redis-log-max-chars | 默认：-1（全部打印）redis日志输出最大字符      |                                                              |
+| env.config.web-log-max-chars   | 默认：-1（全部打印）web日志输出最大字符        |                                                              |
+| env.config.sample-rate         | 采集率 保留字段 暂时没有用                     |                                                              |
 
 ### 六、SPI支持
 
