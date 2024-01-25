@@ -1,0 +1,2 @@
+consumerFilter=fun.pxyc.onelogger.dubbo.ConsumerTraceFilter
+providerFilter=fun.pxyc.onelogger.dubbo.ProviderTraceFilter

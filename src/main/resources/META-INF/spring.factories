@@ -1,0 +1,12 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+fun.pxyc.onelogger.autoconfig.EnvAutoConfiguration,\
+fun.pxyc.onelogger.autoconfig.RestTemplateConfiguration,\
+fun.pxyc.onelogger.autoconfig.RabbitMqAutoConfiguration,\
+fun.pxyc.onelogger.autoconfig.RedisAutoConfiguration,\
+fun.pxyc.onelogger.autoconfig.WebControllerConfiguration,\
+fun.pxyc.onelogger.autoconfig.JdbcAutoConfiguration,\
+fun.pxyc.onelogger.autoconfig.MybatisAutoConfiguration,\
+fun.pxyc.onelogger.autoconfig.BizAopConfiguration,\
+fun.pxyc.onelogger.autoconfig.KonisGraphConfiguration,\
+fun.pxyc.onelogger.autoconfig.ElasticSearchConfiguration,\
+fun.pxyc.onelogger.autoconfig.KafkaAutoConfiguration
