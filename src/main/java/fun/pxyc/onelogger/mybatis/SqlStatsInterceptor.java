@@ -61,8 +61,8 @@ public class SqlStatsInterceptor extends LoggerFormatter implements Interceptor 
     /**
      * 如果是字符串对象则加上单引号返回，如果是日期则也需要转换成字符串形式，如果是其他则直接转换成字符串返回。
      *
-     * @param obj
-     * @return
+     * @param obj 参数对象
+     * @return 返回parameterObject的值
      */
     private static String getParameterValue(Object obj) {
         String value;
