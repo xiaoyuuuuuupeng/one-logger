@@ -26,7 +26,6 @@
         </developer>
     </developers>
 
-    <!--项目在github或其它托管平台的地址-->
     <scm>
         <connection>https://github.com/xiaoyuuuuuupeng/one-logger.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:xiaoyuuuuuupeng/one-logger.git</developerConnection>
@@ -327,7 +326,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--图数据库konisgraph依赖-->
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-core</artifactId>
@@ -466,7 +464,6 @@
 
             <distributionManagement>
                 <snapshotRepository>
-                    <!--注意,此id必须与setting.xml中指定的一致-->
                     <id>ossrh</id>
                     <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
                 </snapshotRepository>
@@ -543,7 +540,6 @@
 
             <distributionManagement>
                 <snapshotRepository>
-                    <!--注意,此id必须与setting.xml中指定的一致-->
                     <id>ossrh</id>
                     <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
                 </snapshotRepository>
@@ -560,7 +556,6 @@
                 <jdk>[11,)</jdk>
             </activation>
             <build>
-                <!--- newer versions of plugins requires JDK 11 -->
                 <plugins>
                     <plugin>
                         <groupId>com.diffplug.spotless</groupId>

@@ -54,30 +54,7 @@ public class EnvConfig {
     }
 
     private static void initEnvInternal() throws Exception {
-        // 不再读properites配置文件或者是yml配置文件,改为采用springboot注入的方式
-        //        Properties p = loadProfileProperties("");
-        //        String port = p.getProperty("server.port","8080");
-        //        GlobalConfig.globalServiceId = Integer.parseInt(p.getProperty("serviceId",port));
-        //        String serviceName = p.getProperty("serviceName","unknown");
-        //
         org.slf4j.Logger log = LoggerFactory.getLogger(EnvConfig.class);
-        //        String profile = System.getProperty("spring.profiles.active");
-        //        if (profile == null) {
-        //            profile = p.getProperty("spring.profiles.active");
-        //            if (profile == null) {
-        //                profile = "local";
-        //            }
-        //        }
-        //
-        //        System.setProperty("env", convertEnv(profile));
-        //        GlobalConfig.globalProfile = profile;
-        //        String appName = p.getProperty("spring.application.name");
-        //        if (appName == null) {
-        //            appName = serviceName;
-        //        }
-        //
-        //        GlobalConfig.globalServiceName = appName;
-
         log.info("spring boot version: " + SpringBootVersion.getVersion());
         log.info("envconfig version 0.0.1 build @ 20230523");
     }
