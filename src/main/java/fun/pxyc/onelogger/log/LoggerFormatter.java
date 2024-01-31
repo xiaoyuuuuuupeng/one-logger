@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.dubbo.rpc.Invocation;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
@@ -153,19 +152,7 @@ public class LoggerFormatter {
         return logMap;
     }
 
-    public Map<String, Object> getJsonReq(Invocation invocation) {
-        Object[] arguments = invocation.getArguments();
-        Map<String, Object> argMap = new LinkedHashMap<>();
-        Class<?>[] parameterTypes = invocation.getParameterTypes();
-        if (arguments == null || arguments.length == 0) {
-            return argMap;
-        }
-        for (int i = 0; i < arguments.length; i++) {
-            String simpleName = parameterTypes.getClass().getSimpleName();
-            argMap.put(simpleName.toLowerCase(), JsonUtil.toJsonObject(arguments[i]));
-        }
-        return argMap;
-    }
+
 
     public Map<String, Object> getJsonReq(MethodInvocation joinPoint) {
         Map<String, Object> req = new LinkedHashMap<>();

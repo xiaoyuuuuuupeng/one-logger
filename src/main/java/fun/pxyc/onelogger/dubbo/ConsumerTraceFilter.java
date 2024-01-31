@@ -11,8 +11,12 @@ import fun.pxyc.onelogger.trace.Trace;
 import fun.pxyc.onelogger.trace.TraceContext;
 import fun.pxyc.onelogger.trace.TraceData;
 import java.net.InetSocketAddress;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import fun.pxyc.onelogger.utils.JsonUtil;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
 import org.slf4j.Logger;
@@ -122,5 +126,19 @@ public class ConsumerTraceFilter extends LoggerFormatter implements Filter {
             return ip;
         }
         return RpcContext.getContext().getLocalAddressString();
+    }
+
+    public Map<String, Object> getJsonReq(Invocation invocation) {
+        Object[] arguments = invocation.getArguments();
+        Map<String, Object> argMap = new LinkedHashMap<>();
+        Class<?>[] parameterTypes = invocation.getParameterTypes();
+        if (arguments == null || arguments.length == 0) {
+            return argMap;
+        }
+        for (int i = 0; i < arguments.length; i++) {
+            String simpleName = parameterTypes.getClass().getSimpleName();
+            argMap.put(simpleName.toLowerCase(), JsonUtil.toJsonObject(arguments[i]));
+        }
+        return argMap;
     }
 }

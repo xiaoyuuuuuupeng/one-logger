@@ -99,7 +99,7 @@
     <dependency>
       <groupId>fun.pxyc</groupId>
       <artifactId>one-logger</artifactId>
-      <version>0.0.1</version>
+      <version>0.1.0</version>
     </dependency>
 ```
 
@@ -303,29 +303,29 @@ env:
 ### 五、配置项
 | 配置参数                       | 配置枚举                                       | 含义                                                         |
 | ------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
-| env.config.disable-stdout      | false;true                                     | 控制是否输出log.info日志和console日志，默认false;配置为true，则不会打印console日志和info级别日志，慎重配置 |
-| env.config.trace-adapter-param | default;....                                   | traceAadpter的spi支持，默认default，后续可以利用此spi对接第三方中间件 |
-| env.config.web-cut-point       | 默认:execution(* com.demo.*.controller..*(..)) | web层切点配置                                                |
-| env.config.biz-cut-point       | 默认:execution(* com.demo.*.service..*(..))    | biz层切点配置                                                |
-| env.config.log-formatter       | json;plain;......                              | logFormatter的spi支持，默认json,支持自定义输出logStr         |
-| env.config.log-index           | 例：req.name，可以参考jsonPath，多个用分号拼接 | 提取日志中的某一个字段作为index，方便支持es的索引。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
-| env.config.ignore-params       | 例：res.name，可以参考jsonPath，多个用分号拼接 | 忽略日志中的某一个字段，会将该字段值替换为"******"。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
-| env.config.slow-sql-millis     | 慢sql时间ms int值                              | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-redis-millis   | 慢redisl时间ms int值                           | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-http-millis    | 慢http时间ms int值                             | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-kafka-millis   | 慢kafka时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-mq-millis      | 慢mq时间ms int值                               | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-hbase-millis   | 慢hbase时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.slow-mongo-millis   | 慢mongo时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
-| env.config.db-log-max-chars    | 默认：-1（全部打印）db日志输出最大字符         |                                                              |
-| env.config.dubbo-log-max-chars | 默认：-1（全部打印）dubbo日志输出最大字符      |                                                              |
-| env.config.hbase-log-max-chars | 默认：-1（全部打印）hbase日志输出最大字符      |                                                              |
-| env.config.http-log-max-chars  | 默认：-1（全部打印）http日志输出最大字符       |                                                              |
-| env.config.mongo-log-max-chars | 默认：-1（全部打印）mongo日志输出最大字符      |                                                              |
-| env.config.mq-log-max-chars    | 默认：-1（全部打印）mq日志输出最大字符         |                                                              |
-| env.config.redis-log-max-chars | 默认：-1（全部打印）redis日志输出最大字符      |                                                              |
-| env.config.web-log-max-chars   | 默认：-1（全部打印）web日志输出最大字符        |                                                              |
-| env.config.sample-rate         | 采集率 保留字段 暂时没有用                     |                                                              |
+| logger.config.disable-stdout      | false;true                                     | 控制是否输出log.info日志和console日志，默认false;配置为true，则不会打印console日志和info级别日志，慎重配置 |
+| logger.config.trace-adapter-param | default;....                                   | traceAadpter的spi支持，默认default，后续可以利用此spi对接第三方中间件 |
+| logger.config.web-cut-point       | 默认:execution(* com.demo.*.controller..*(..)) | web层切点配置                                                |
+| logger.config.biz-cut-point       | 默认:execution(* com.demo.*.service..*(..))    | biz层切点配置                                                |
+| logger.config.log-formatter       | json;plain;......                              | logFormatter的spi支持，默认json,支持自定义输出logStr         |
+| logger.config.log-index           | 例：req.name，可以参考jsonPath，多个用分号拼接 | 提取日志中的某一个字段作为index，方便支持es的索引。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
+| logger.config.ignore-params       | 例：res.name，可以参考jsonPath，多个用分号拼接 | 忽略日志中的某一个字段，会将该字段值替换为"******"。原理为：[jsonPath](https://github.com/json-path/JsonPath) |
+| logger.config.slow-sql-millis     | 慢sql时间ms int值                              | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-redis-millis   | 慢redisl时间ms int值                           | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-http-millis    | 慢http时间ms int值                             | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-kafka-millis   | 慢kafka时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-mq-millis      | 慢mq时间ms int值                               | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-hbase-millis   | 慢hbase时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.slow-mongo-millis   | 慢mongo时间ms int值                            | 超过就会在all.log里打印warn级别的日志                        |
+| logger.config.db-log-max-chars    | 默认：-1（全部打印）db日志输出最大字符         |                                                              |
+| logger.config.dubbo-log-max-chars | 默认：-1（全部打印）dubbo日志输出最大字符      |                                                              |
+| logger.config.hbase-log-max-chars | 默认：-1（全部打印）hbase日志输出最大字符      |                                                              |
+| logger.config.http-log-max-chars  | 默认：-1（全部打印）http日志输出最大字符       |                                                              |
+| logger.config.mongo-log-max-chars | 默认：-1（全部打印）mongo日志输出最大字符      |                                                              |
+| logger.config.mq-log-max-chars    | 默认：-1（全部打印）mq日志输出最大字符         |                                                              |
+| logger.config.redis-log-max-chars | 默认：-1（全部打印）redis日志输出最大字符      |                                                              |
+| logger.config.web-log-max-chars   | 默认：-1（全部打印）web日志输出最大字符        |                                                              |
+| logger.config.sample-rate         | 采集率 保留字段 暂时没有用                     |                                                              |
 
 ### 六、SPI支持
 

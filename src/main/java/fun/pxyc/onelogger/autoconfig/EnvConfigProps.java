@@ -2,7 +2,7 @@ package fun.pxyc.onelogger.autoconfig;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "env.config")
+@ConfigurationProperties(prefix = "logger.config")
 public class EnvConfigProps {
 
     public static int slowSqlMillis = 500;
