@@ -114,7 +114,7 @@ spring:
     name: demo-service
 log:
   path: ./logs
-env:
+logger:
   config:
     web-cut-point: execution(* com.demo.controller..*(..))
     biz-cut-point: execution(* com.demo.service..*(..))
