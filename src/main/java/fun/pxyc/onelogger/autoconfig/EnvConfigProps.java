@@ -35,7 +35,7 @@ public class EnvConfigProps {
             "execution(* com.demo.service.impl..*.*(..)) ||execution(* com.demo.bizService.remoteImpl..*.*(..)) || execution(* com.demo.bizService.impl..*(..)) || execution(* com.sqg.dubboService..*(..)) || execution(* com.demo.handler..*(..)) || execution(* com.demo.cacheService..*(..))";
     public static String webCutPoint = "execution(* com.demo.controller..*(..))";
     public static int sampleRate = 100;
-    public static boolean reqHeaders = false;
+    public static boolean reqHeaders = true;
 
     public EnvConfigProps() {}
 

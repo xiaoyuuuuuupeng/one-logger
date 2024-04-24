@@ -56,7 +56,7 @@ public class EnvConfig {
     private static void initEnvInternal() {
         org.slf4j.Logger log = LoggerFactory.getLogger(EnvConfig.class);
         log.info("spring boot version: " + SpringBootVersion.getVersion());
-        log.info("envconfig version 0.1.0 build @ 20240131");
+        log.info("envconfig version 0.1.1 build @ 20240424");
     }
 
     private static String convertEnv(String profile) {

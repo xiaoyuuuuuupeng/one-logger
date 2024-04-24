@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 public class LoggerFormatter {
 
     private static LoggerFormatterHandler handler;
     private static List<LoggerFilter> loggerFilters = new ArrayList<>();
+
+    private static final Logger logger = LoggerFactory.getLogger(LoggerFormatter.class);
 
     protected static void Log(Logger logger, Map<String, Object> params) {
         boolean infoEnabled = logger.isInfoEnabled();
@@ -87,18 +90,32 @@ public class LoggerFormatter {
         logMap.put("spanId", spanId);
         logMap.put("sequence", sequence);
         logMap.put("cost", getCost(timeUsedMs));
-        logMap.put("request", reqParams);
-        logMap.put("response", resData);
+        String reqStr = reqParams != null ? JsonUtil.toJson(reqParams) : "";
+        if (reqStr == null) {
+            logger.error("generate reqJsonStr error,reqParams is {}", JsonUtil.toJson(reqParams));
+            reqStr = "";
+        }
+        if (logSize != -1 && logSize != 0) {
+            if (reqStr.length() > logSize - 3) {
+                reqStr = reqStr.substring(0, logSize - 3);
+                reqStr = reqStr + "...";
+            }
+        }
+        String resStr = resData != null ? JsonUtil.toJson(resData) : "";
+        if (resStr == null) {
+            logger.error("generate reqJsonStr error,reqParams is {}", JsonUtil.toJson(reqParams));
+            resStr = "";
+        }
+        if (logSize != -1 && logSize != 0) {
+            if (resStr.length() > logSize - 3) {
+                resStr = resStr.substring(0, logSize - 3);
+                resStr = resStr + "...";
+            }
+        }
+        logMap.put("reqStr", reqStr);
+        logMap.put("resStr", resStr);
         if (exception != null && !exception.isEmpty()) {
             logMap.put("throwable", exception);
-        }
-        Map<String, String> map = MDC.getCopyOfContextMap();
-        if (map != null && !map.isEmpty()) {
-            for (String key : map.keySet()) {
-                if (!logMap.containsKey(key) && !"TRACE_ID".equals(key) && !"extraInfo".equals(key)) {
-                    logMap.put(key, map.get(key));
-                }
-            }
         }
         return logMap;
     }
@@ -151,8 +168,6 @@ public class LoggerFormatter {
         logMap.put("extraInfo", extraInfo);
         return logMap;
     }
-
-
 
     public Map<String, Object> getJsonReq(MethodInvocation joinPoint) {
         Map<String, Object> req = new LinkedHashMap<>();
