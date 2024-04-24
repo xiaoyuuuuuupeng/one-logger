@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ClassUtils;
 
 @Configuration
 @ConditionalOnClass({Interceptor.class, SqlSessionFactory.class})
@@ -17,6 +18,8 @@ public class MybatisAutoConfiguration implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         Map<String, SqlSessionFactory> sqlSessionFactoryMap =
                 applicationContext.getBeansOfType(SqlSessionFactory.class);
-        sqlSessionFactoryMap.values().forEach(v -> v.getConfiguration().addInterceptor(new SqlStatsInterceptor()));
+        boolean useDruidDataSource = ClassUtils.isPresent("com.alibaba.druid.pool.DruidDataSource", null);
+        sqlSessionFactoryMap.values().forEach(v -> v.getConfiguration()
+                .addInterceptor(new SqlStatsInterceptor(useDruidDataSource)));
     }
 }

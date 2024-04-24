@@ -58,6 +58,14 @@ public class SqlStatsInterceptor extends LoggerFormatter implements Interceptor 
 
     private final AtomicInteger seq = new AtomicInteger(0);
 
+    private boolean useDruidDataSource;
+
+    public SqlStatsInterceptor() {}
+
+    public SqlStatsInterceptor(boolean useDruidDataSource) {
+        this.useDruidDataSource = useDruidDataSource;
+    }
+
     /**
      * 如果是字符串对象则加上单引号返回，如果是日期则也需要转换成字符串形式，如果是其他则直接转换成字符串返回。
      *
@@ -229,7 +237,7 @@ public class SqlStatsInterceptor extends LoggerFormatter implements Interceptor 
             rc = resultList.size();
         }
         Map<String, Object> res = new LinkedHashMap<>();
-        res.put("list", result);
+        res.put("result", result);
         res.put("rowcount", rc);
         return res;
     }
@@ -239,12 +247,14 @@ public class SqlStatsInterceptor extends LoggerFormatter implements Interceptor 
         DataSource dataSource =
                 mappedStatement.getConfiguration().getEnvironment().getDataSource();
         if (dataSource instanceof HikariDataSource) {
-            HikariDataSource druidDataSource = (HikariDataSource) dataSource;
-            jdbcUrl = druidDataSource.getJdbcUrl();
+            HikariDataSource hikariDataSource = (HikariDataSource) dataSource;
+            jdbcUrl = hikariDataSource.getJdbcUrl();
         }
-        if (dataSource instanceof DruidDataSource) {
-            DruidDataSource druidDataSource = (DruidDataSource) dataSource;
-            jdbcUrl = druidDataSource.getRawJdbcUrl();
+        if (isUseDruidDataSource()) {
+            if (dataSource instanceof DruidDataSource) {
+                DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+                jdbcUrl = druidDataSource.getRawJdbcUrl();
+            }
         }
         return JdbcUrlUtil.findDataBaseNameByUrl(jdbcUrl);
     }
@@ -257,10 +267,20 @@ public class SqlStatsInterceptor extends LoggerFormatter implements Interceptor 
             HikariDataSource druidDataSource = (HikariDataSource) dataSource;
             jdbcUrl = druidDataSource.getJdbcUrl();
         }
-        if (dataSource instanceof DruidDataSource) {
-            DruidDataSource druidDataSource = (DruidDataSource) dataSource;
-            jdbcUrl = druidDataSource.getRawJdbcUrl();
+        if (isUseDruidDataSource()) {
+            if (dataSource instanceof DruidDataSource) {
+                DruidDataSource druidDataSource = (DruidDataSource) dataSource;
+                jdbcUrl = druidDataSource.getRawJdbcUrl();
+            }
         }
         return JdbcUrlUtil.findConnIdByUrl(jdbcUrl);
+    }
+
+    public boolean isUseDruidDataSource() {
+        return useDruidDataSource;
+    }
+
+    public void setUseDruidDataSource(boolean useDruidDataSource) {
+        this.useDruidDataSource = useDruidDataSource;
     }
 }

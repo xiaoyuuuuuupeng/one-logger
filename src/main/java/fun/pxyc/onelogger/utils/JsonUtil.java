@@ -1,6 +1,5 @@
 package fun.pxyc.onelogger.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +28,7 @@ public class JsonUtil {
             return mapper.writeValueAsString(o);
         } catch (Exception e) {
             try {
-                return JSON.toJSONString(o);
+                return gsonParser(o);
             } catch (Exception e1) {
                 log.error("json convert exception", e1);
             }
